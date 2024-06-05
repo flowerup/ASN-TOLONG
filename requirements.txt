@@ -1,13 +1,7 @@
-torch
-torch.nn as nn
-torch.nn.functional as F # adds some efficiency
-
-streamlit torch.utils.data  
-torchvision 
-torchvision.utils 
-import torch.optim 
-import numpy as np
+import matplotlib.pyplot as plt
 import pandas as pd
-sklearn.metrics 
-matplotlib
-os
+import numpy as np
+import plotly.graph_objs as go
+import math
+import streamlit as st
+from streamlit_option_menu import option_menu
