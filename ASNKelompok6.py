@@ -163,10 +163,88 @@ for n in range (ptp):
 
 n = np. arange(0,ptp,1,dtype=int)
 
+bpm_rr_baseline = bpm_rr-70
+
+#Fungsi FFT dan perhitungan frekuensi
+def fourier_transform(signal):
+    N = len(signal)
+    fft_result = np.zeros(N, dtype=complex)
+    for k in range(N):
+        for n in range(N):
+            fft_result[k] += signal[n] * np.exp(-2j * np.pi * k * n / N)
+    return fft_result
+def calculate_frequency(N, sampling_rate):
+    return np.arange(N) * sampling_rate / N
+
+sampling_rate = 1
+
+# Subset pertama dari data
+n_subset = n[0:50]
+bpm_rr_baseline_subset = bpm_rr_baseline[0:50]
+M = len(bpm_rr_baseline_subset) - 1
+hamming_window = np.zeros(M+1)
+for i in range(M+1):
+    hamming_window[i] = 0.54 - 0.46 * np.cos(2 * np.pi * i / M)
+bpm_rr_baseline_windowed = bpm_rr_baseline_subset * hamming_window
+fft_result = fourier_transform(bpm_rr_baseline_windowed) # Compute Fourier Transform
+sampling_rate = 1
+fft_freq = calculate_frequency(len(bpm_rr_baseline_windowed), sampling_rate)
+half_point = len(fft_freq) // 2
+fft_freq_half = fft_freq[:half_point]
+fft_result_half = fft_result[:half_point]
+
+# Subset kedua dari data
+n_subset1 = n[50:100]
+bpm_rr_baseline_subset1 = bpm_rr_baseline[50:100]
+M1 = len(bpm_rr_baseline_subset1) -1
+hamming_window1 = np.zeros(M1+1)
+for i in range(M1+1):
+    hamming_window1[i] = 0.54 - 0.46 * np.cos(2 * np.pi * i /M1 )
+bpm_rr_baseline_windowed1 = bpm_rr_baseline_subset1 * hamming_window1
+fft_result1 = fourier_transform(bpm_rr_baseline_windowed1)
+fft_freq1 = calculate_frequency(len(bpm_rr_baseline_windowed1), sampling_rate)
+half_point1 = len(fft_freq1) // 2
+fft_freq_half1 = fft_freq1[:half_point1]
+fft_result_half1 = fft_result1[:half_point1]
+
+# Subset ketiga dari data
+n_subset2 = n[101:151]
+bpm_rr_baseline_subset2 = bpm_rr_baseline[101:151]
+
+M2 = len(bpm_rr_baseline_subset2) - 1
+hamming_window2 = np.zeros(M2+1)
+for i in range(M2+1):
+    hamming_window2[i] = 0.54 - 0.46 * np.cos(2 * np.pi * i / M2)
+bpm_rr_baseline_windowed2 = bpm_rr_baseline_subset2 * hamming_window2
+
+fft_result2 = fourier_transform(bpm_rr_baseline_windowed2)
+fft_freq2 = calculate_frequency(len(bpm_rr_baseline_windowed2), sampling_rate)
+half_point2 = len(fft_freq2) // 2
+fft_freq_half2 = fft_freq2[:half_point2]
+fft_result_half2 = fft_result2[:half_point2]
+
+# Subset keempat dari data
+n_subset3 = n[151:201]
+bpm_rr_baseline_subset3 = bpm_rr_baseline[151:201]
+
+M3 = len(bpm_rr_baseline_subset3) - 1
+hamming_window3 = np.zeros(M3+1)
+for i in range(M3+1):
+    hamming_window3[i] = 0.54 - 0.46 * np.cos(2 * np.pi * i / M3)
+bpm_rr_baseline_windowed3 = bpm_rr_baseline_subset3 * hamming_window3
+
+fft_result3 = fourier_transform(bpm_rr_baseline_windowed3)
+fft_freq3 = calculate_frequency(len(bpm_rr_baseline_windowed3), sampling_rate)
+half_point3 = len(fft_freq3) // 2
+fft_freq_half3 = fft_freq3[:half_point3]
+fft_result_half3 = fft_result3[:half_point3]
 
 
 
 
+
+
+#DISPLAY STREAMLIT
 with st.sidebar:
     selected = option_menu("TUGAS 1", ["Home", "Signal Processing","HRV Analysis","DWT"], default_index=0)
 
@@ -357,6 +435,25 @@ if selected == "HRV Analysis":
         )
 
         st.plotly_chart(fig_histogram)
+
+    if sub_selected == 'Frequency Domain Analysis':
+    selected1 = option_menu(None, ["Baseline", "Segmentation","SPECTRUM"], 
+    menu_icon="cast", default_index=0, orientation="horizontal")
+    
+    if selected1 == 'Baseline':
+        st.title('BPM BASELINE')
+
+    # Plotting dengan Plotly
+    n = np.arange(0, ptp, 1, dtype=int)
+    fig = go.Figure(data=go.Scatter(x=n, y=bpm_rr_baseline, mode='lines'))
+    fig.update_layout(
+        title="TACHOGRAM",
+        xaxis_title="n",
+        yaxis_title="BPM",
+        xaxis=dict(showline=True, showgrid=True),
+        yaxis=dict(showline=True, showgrid=True)
+        
+ 
     
 
 
