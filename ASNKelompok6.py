@@ -163,10 +163,6 @@ for n in range (ptp):
 
 n = np. arange(0,ptp,1,dtype=int)
 
-
-
-
-
 with st.sidebar:
     selected = option_menu("TUGAS 1", ["Home", "Signal Processing","HRV Analysis","DWT"], default_index=0)
 
