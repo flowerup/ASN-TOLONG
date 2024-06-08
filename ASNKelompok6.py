@@ -163,10 +163,10 @@ for n in range (ptp):
 
 n = np. arange(0,ptp,1,dtype=int)
 
+bpm_rr_baseline = bpm_rr - 70
 
 
-
-
+#DISPLAY STREAMLIT
 with st.sidebar:
     selected = option_menu("TUGAS 1", ["Home", "Signal Processing","HRV Analysis","DWT"], default_index=0)
 
@@ -358,11 +358,32 @@ if selected == "HRV Analysis":
 
         st.plotly_chart(fig_histogram)
     
+    elif sub_selected == 'Frequency Domain Analysis':
+       new_title = '<p style="font-family:Georgia; color:black; font-size: 25px; text-align: center;">Frequency Domain Analysis</p>'
+       st.markdown(new_title, unsafe_allow_html=True)
+       selected2 = option_menu(None, ["Tachogram", "Segmentation","Spectrum"], 
+       menu_icon="cast", default_index=0, orientation="horizontal")
 
+       if selected2 == 'Tachogram':
+          st.title('Tachogram Baseline')
+          
+          # Plotting dengan Plotly
+          n = np.arange(0, ptp, 1, dtype=int)
+          fig = go.Figure(data=go.Scatter(x=n, y=bpm_rr_baseline, mode='lines'))
+          fig.update_layout(
+            title="TACHOGRAM",
+            xaxis_title="n",
+            yaxis_title="BPM",
+            xaxis=dict(showline=True, showgrid=True),
+            yaxis=dict(showline=True, showgrid=True)
+          )
+          # Display the figure in Streamlit
+          st.header("Tachogram BPM Baseline")
+          st.plotly_chart(fig) 
 
+        
 
-
-
+       
 
         
 
@@ -400,11 +421,3 @@ if selected == "HRV Analysis":
         
         
     
-
-
-
-
-    
-
-
-         
