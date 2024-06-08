@@ -315,7 +315,7 @@ if selected == "Signal Processing":
 if selected == "HRV Analysis":
     sub_selected = st.sidebar.radio(
         "Pilih Metode HRV Analysis",
-        ["Time Domain Analysis", "Frequency Domain analysis", "Non Liniear analysis "],
+        ["Time Domain Analysis", "Frequency Domain Analysis", "Non Liniear Analysis "],
         index=0
     )
 
